@@ -1,11 +1,6 @@
 import { IBaseProps } from '../_base';
 export interface IProgressBarProps extends IBaseProps {
   /**
-   * @description canvas id
-   * @default 'amd-progressBar-canvas'
-   */
-  id: string;
-  /**
    * @description canvas 样式
    * @default ''
    */

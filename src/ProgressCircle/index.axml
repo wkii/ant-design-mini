@@ -1,6 +1,6 @@
 
 <view class="amd-progressBar-wrapper {{className}}">
-  <canvas id="{{id}}" type="2d" class="{{className}}" width="{{width}}" height="{{height}}" />
+  <canvas id="amd-progressBar-canvas-{{$id}}" type="2d" class="{{className}}" width="{{width}}" height="{{height}}" />
   <view class="amd-progressBar-indicator-default" a:if="{{!label && !progressText}}">
     <text>{{percent}}{{unit}}</text>
   </view>

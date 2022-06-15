@@ -24,20 +24,21 @@ Component({
       return new Promise((resolve, reject) => {
         if (useNewApi) {
           const query = my.createSelectorQuery();
-          query.select(`#${this.props.id}`).node().exec((res) => {
+          query.select(`#amd-progressBar-canvas-${this.$id}`).node().exec((res) => {
             this.canvas = res[0].node
             this.ctx = res[0].node.getContext('2d');
             resolve()
           })
         } else {
-          this.ctx = my.createCanvasContext(this.props.id)
+          this.ctx = my.createCanvasContext(`amd-progressBar-canvas-${this.$id}`)
+          resolve()
         }
       })
     },
     async updateProgress (prev) {
       await this.getCanvasContext()
+      console.log(this.ctx)
       this.drawOrbit()
-      
       let curRad = Math.floor(prev / 100 * 360)
       const targetRad = Math.floor(this.props.percent / 100 * 360)
       const direction = curRad < targetRad ? 1 : -1 
@@ -53,6 +54,7 @@ Component({
         this.clearCanvas()
         this.drawOrbit()
         this.drawProgress(curRad)
+        !useNewApi && this.ctx.draw()
         this.requestAnimationFrame(draw)
       }
 
@@ -66,21 +68,21 @@ Component({
       }
     }
     drawProgress (rad = 0) {
-      const ctx = this.ctx
-      const { width, height } = this.props
+      const ctx = this.ctx;
+      const { width, height } = this.props;
       ctx.save();
       ctx.beginPath();
-      ctx.strokeStyle = (this.props.progressColor);
+      ctx.strokeStyle = this.props.progressColor;
       ctx.lineWidth = this.props.progressWidth;
       ctx.arc(width / 2, height / 2, width / 2 - this.props.progressWidth, -Math.PI / 2, -Math.PI / 2 + rad / 360 * 2 * Math.PI, false);
       ctx.stroke();
     },
     drawOrbit () {
-      const ctx = this.ctx
-      const { width, height } = this.props     
+      const ctx = this.ctx;
+      const { width, height } = this.props;
       ctx.save();
       ctx.beginPath();
-      ctx.strokeStyle = (this.props.orbitColor);
+      ctx.strokeStyle = this.props.orbitColor;
       ctx.lineWidth = this.props.progressWidth;
       ctx.arc(width / 2, height / 2, width / 2 - this.props.progressWidth, 0, Math.PI * 2, false);
       ctx.stroke();
